@@ -10,12 +10,15 @@ class App extends Component {
   }
 
   loginUser = (userObj) => {
+    console.log(userObj)
     Api.login(userObj) 
-    .then((user) => {
-
+    .then((json) => {
+      console.log(json)
       this.setState({
-        user
+        user: json.user
       })
+
+      localStorage.setItem('userToken', json.token)
     })
   }
 
@@ -24,8 +27,12 @@ class App extends Component {
   }
 
   render() {
+    console.log(this.state.user.username)
     return (
+
+    
       <div>
+        { localStorage.getItem('userToken') ? <p>Welcome User</p> : <p>Please Log in</p>}
         <p>{this.state.user.username}</p>
         <LoginForm onLogin={this.loginUser} />  
       </div>
